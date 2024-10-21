@@ -37,18 +37,16 @@ namespace InfixToPostfix
 
 
 
-            if (RegexPatterns.AllWhitespaces().Replace(inputInfixTerm, string.Empty).Equals(string.Empty))
+            if (InfixHandler.InfixTermIsValid(inputInfixTerm) == false)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("                                                     ");
-                Console.WriteLine("             An invalid infix term was provided!      ");
+                Console.WriteLine("             An invalid infix term was provided!     ");
 
                 Thread.Sleep(3000);
 
                 goto LabelMethodEntry;
             }
-
-
 
 
 
