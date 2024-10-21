@@ -35,7 +35,20 @@ namespace InfixToPostfix
 
             string inputInfixTerm = Console.ReadLine() ?? string.Empty;
 
-            
+
+
+            if (RegexPatterns.AllWhitespaces().Replace(inputInfixTerm, string.Empty).Equals(string.Empty))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("                                                     ");
+                Console.WriteLine("             An invalid infix term was provided!      ");
+
+                Thread.Sleep(3000);
+
+                goto LabelMethodEntry;
+            }
+
+
 
 
 
