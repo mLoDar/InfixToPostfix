@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Runtime.InteropServices;
 
 
 
@@ -8,8 +9,39 @@ namespace InfixToPostfix
 {
     internal class Program
     {
+        private const int STD_OUTPUT_HANDLE = -11;
+        private const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+
+
+
+#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
+
+
+
         static void Main()
         {
+            try
+            {
+                EnableAnsiEscapeSequences();
+            }
+            catch (Exception exception)
+            {
+                DisplayError($"Failed to initialize ANSI color coding: {exception.Message}");
+                
+                Environment.Exit(0);
+            }
+            
+
+
         LabelMethodEntry:
 
             Console.Title = "InfixToPostfix";
@@ -100,6 +132,40 @@ namespace InfixToPostfix
             Console.WriteLine($"             {errorMessage}                         ");
 
             Thread.Sleep(3000);
+        }
+
+        private static bool EnableAnsiEscapeSequences()
+        {
+            /*
+                Thanks to 'John Leidegren' on StackOverflow!
+                Used their solution for enabling the ANSI color coding
+                for consoles under windows.
+
+                - References
+                Question: https://stackoverflow.com/questions/61779942/
+                Answer: https://stackoverflow.com/a/75958239
+            */
+
+            IntPtr handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+            if (handle == IntPtr.Zero)
+            {
+                throw new Exception("Cannot get standard output handle!");
+            }
+
+            if (!GetConsoleMode(handle, out uint mode))
+            {
+                throw new Exception("Cannot get console mode!");
+            }
+
+            mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+            if (!SetConsoleMode(handle, mode))
+            {
+                throw new Exception("Cannot set console mode!");
+            }
+
+            return true;
         }
     }
 }
