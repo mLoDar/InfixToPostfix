@@ -36,7 +36,7 @@ namespace InfixToPostfix
             string inputInfixTerm = Console.ReadLine() ?? string.Empty;
 
 
-
+            
             if (InfixHandler.InfixTermIsValid(inputInfixTerm) == false)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -47,6 +47,24 @@ namespace InfixToPostfix
 
                 goto LabelMethodEntry;
             }
+
+            string postfixTerm = InfixHandler.InfixTermToPostfix(inputInfixTerm);
+
+
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("                                                     ");
+            Console.Write("             Postfix term: ");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(postfixTerm);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("                                                     ");
+            Console.WriteLine("                                                     ");
+            Console.Write("             Press any key to contiue ...");
+
+            Console.ReadKey();
 
 
 
