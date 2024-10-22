@@ -36,37 +36,49 @@ namespace InfixToPostfix
             string inputInfixTerm = Console.ReadLine() ?? string.Empty;
 
 
-            
+
+            if (RegexPatterns.AllWhitespaces().Replace(inputInfixTerm, string.Empty).Equals(string.Empty))
+            {
+                DisplayError("The provided input contains of only whitespaces!");
+
+                goto LabelMethodEntry;
+            }
+
             if (InfixHandler.InfixTermIsValid(inputInfixTerm) == false)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("                                                     ");
-                Console.WriteLine("             An invalid infix term was provided!     ");
-
-                Thread.Sleep(3000);
+                DisplayError("An invalid infix term was provided!");
 
                 goto LabelMethodEntry;
             }
 
 
 
-            string postfixTerm = InfixHandler.InfixTermToPostfix(inputInfixTerm);
-            double postfixResult = InfixHandler.CalculatePostfixResult(postfixTerm);
-            postfixResult = Math.Round(postfixResult, 2);
+            string postfixTerm;
+            double postfixResult;
 
+            try
+            {
+                postfixTerm = InfixHandler.InfixTermToPostfix(inputInfixTerm);
+
+                postfixResult = InfixHandler.CalculatePostfixResult(postfixTerm);
+                postfixResult = Math.Round(postfixResult, 2);
+            }
+            catch (Exception exception)
+            {
+                DisplayError($"An error has occurred while processing logic: '{exception.Message}'");
+
+                goto LabelMethodEntry;
+            }
+            
 
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("                                                     ");
-            Console.Write("             Postfix term: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(postfixTerm);
+            Console.WriteLine($"             Postfix term: \u001b[92m{postfixTerm}  ");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("                                                     ");
-            Console.Write("             Calculated result: ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(postfixResult);
+            Console.WriteLine($"             Calculated result: \u001b[92m{postfixResult}");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("                                                     ");
@@ -79,6 +91,15 @@ namespace InfixToPostfix
 
 
             goto LabelMethodEntry;
+        }
+
+        private static void DisplayError(string errorMessage)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("                                                     ");
+            Console.WriteLine($"             {errorMessage}                         ");
+
+            Thread.Sleep(3000);
         }
     }
 }
