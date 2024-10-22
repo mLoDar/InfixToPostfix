@@ -83,13 +83,11 @@ namespace InfixToPostfix
             return true;
         }
 
-        public static string InfixTermToPostfix(string inputInfixTerm)
+        internal static string InfixTermToPostfix(string inputInfixTerm)
         {
             List<string> postfixTerm = [];
             Stack<char> operators = new();
             StringBuilder numberBuilder = new();
-
-
 
             for (int i = 0; i < inputInfixTerm.Length; i++)
             {
@@ -152,6 +150,45 @@ namespace InfixToPostfix
             }
 
             return string.Join(" ", postfixTerm);
+        }
+
+        internal static double CalculatePostfixResult(string inputPostfixTerm)
+        {
+            Stack<double> operators = new();
+            string[] tokens = inputPostfixTerm.Split(' ');
+
+            foreach (string token in tokens)
+            {
+                if (token.Equals(null) || token.Equals(string.Empty))
+                {
+                    continue;
+                }
+
+                try
+                {
+                    double operand = Convert.ToDouble(token);
+                    operators.Push(operand);
+                    continue;
+                }
+                catch
+                {
+                    double operand2 = operators.Pop();
+                    double operand1 = operators.Pop();
+
+                    double result = token switch
+                    {
+                        "+" => operand1 + operand2,
+                        "-" => operand1 - operand2,
+                        "*" => operand1 * operand2,
+                        "/" => operand1 / operand2,
+                        _ => throw new Exception("Received unexpected operator!")
+                    };
+
+                    operators.Push(result);
+                }
+            }
+
+            return operators.Pop();
         }
     }
 }

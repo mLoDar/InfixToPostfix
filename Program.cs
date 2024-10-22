@@ -48,18 +48,28 @@ namespace InfixToPostfix
                 goto LabelMethodEntry;
             }
 
+
+
             string postfixTerm = InfixHandler.InfixTermToPostfix(inputInfixTerm);
+            double postfixResult = InfixHandler.CalculatePostfixResult(postfixTerm);
+            postfixResult = Math.Round(postfixResult, 2);
 
 
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("                                                     ");
             Console.Write("             Postfix term: ");
-
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(postfixTerm);
 
             Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("                                                     ");
+            Console.Write("             Calculated result: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(postfixResult);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("                                                     ");
             Console.WriteLine("                                                     ");
             Console.WriteLine("                                                     ");
             Console.Write("             Press any key to contiue ...");
