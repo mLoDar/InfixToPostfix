@@ -11,6 +11,9 @@ The postfix notation is also known as the [_"Reverse Polish notation"_](https://
 
 ---
 
+## Other services used
+- The website [patorjk.com](https://patorjk.com/software/taag/#p=display&f=Tmplr) was used for creating headers within the application.
+
 ## How it Works
 
 - User of the application enters an infix term.
@@ -44,7 +47,7 @@ The postfix notation is also known as the [_"Reverse Polish notation"_](https://
 
 ## Future Improvements
 
-- [ ] Support more operators such as `^`, `²`, `³`, ...
+- [ ] Support more operators such as `^`, `Â²`, `Â³`, ...
 - [ ] Implement the support of square root or similar methods.
    
 ---
