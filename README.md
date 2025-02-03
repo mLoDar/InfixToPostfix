@@ -45,11 +45,6 @@ The postfix notation is also known as the [_"Reverse Polish notation"_](https://
     <img style='height: 90%; width: 90%;' alt="infixConvertor" src="readme-files/infixconvertor.PNG"/>
 </p>
 
-## Future Improvements
-
-- [ ] Support more operators such as `^`, `²`, `³`, ...
-- [ ] Implement the support of square root or similar methods.
-   
 ---
 
 <p align="center">
